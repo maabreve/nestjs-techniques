@@ -19,36 +19,36 @@
     - Always validate signature (with the method validate() from PassportStrategy base class)
     - Encrypt claims?
 
-      - Reading
-        - [JWT cheat sheets](https://pragmaticwebsecurity.com/files/cheatsheets/jwt.pdf)
-        - [ietf.org](https://tools.ietf.org/id/draft-ietf-oauth-jwt-bcp-02.html)
-        - [Auth0 jwt security](https://auth0.com/blog/a-look-at-the-latest-draft-for-jwt-bcp)
+    - Reading
+      - [JWT cheat sheets](https://pragmaticwebsecurity.com/files/cheatsheets/jwt.pdf)
+      - [ietf.org](https://tools.ietf.org/id/draft-ietf-oauth-jwt-bcp-02.html)
+      - [Auth0 jwt security](https://auth0.com/blog/a-look-at-the-latest-draft-for-jwt-bcp)
 
 
 ## Public roles and claims - Fine grained management and code integration
-  ### Public Claims types:
+  - Public Claims types:
     - Authentication claims: regarding user access to application
     - Authorization API: regarding CRUD or custom permissions to backend api
     - Authorization Session: regarding front-end claims (eg: print, show/hide button)
 
-  ### Discussion
+  - Discussion
     - Best practices - authentication and authorization (claims) must be apart from applications apis:
       - Api integration - Is it possible to create guards dynamically or must be hard coded in routes?
       - Strategies to manage jwt 4k size limit
       - JWT payload are exposed. Encrypt/Decrypt JWT payload? [node bcrypt](https://github.com/kelektiv/node.bcrypt.js#readme)
 
-  #### Readings
-  ##### Architectures RBAC, ABAC,
-    - https://cdn2.hubspot.net/hub/174819/file-18506087-pdf/docs/empowerid-whitepaper-r
-    - https://www.ekransystem.com/en/blog/rbac-vs-abac
-    - https://www.visual-guard.com/EN/net-powerbuilder-application-security-authentication-permission-access-control-rbac-articles/dotnet-security-article-ressources/iam-best-practices.html
-    - https://leastprivilege.com/2016/12/16/identity-vs-permissions/
-  ###### Fine grained strategies
-    - https://www.3pillarglobal.com/insights/granular-level-user-and-role-management-using-asp-net-identity
-    - https://medium.com/capital-one-tech/securing-applications-with-better-user-authorization-625ec07a7001
-  ###### Carry permissions (session front-end) in JWT
-    - https://stackoverflow.com/questions/51507978/is-it-more-efficient-to-store-the-permissions-of-the-user-in-an-jwt-claim-or-to
-    - https://stackoverflow.com/questions/47224931/is-setting-roles-in-jwt-a-best-practice
+  - Readings
+    - Architectures RBAC, ABAC,
+      - https://cdn2.hubspot.net/hub/174819/file-18506087-pdf/docs/empowerid-whitepaper-r
+      - https://www.ekransystem.com/en/blog/rbac-vs-abac
+      - https://www.visual-guard.com/EN/net-powerbuilder-application-security-authentication-permission-access-control-rbac-articles/dotnet-security-article-ressources/iam-best-practices.html
+      - https://leastprivilege.com/2016/12/16/identity-vs-permissions/
+    - Fine grained strategies
+      - https://www.3pillarglobal.com/insights/granular-level-user-and-role-management-using-asp-net-identity
+      - https://medium.com/capital-one-tech/securing-applications-with-better-user-authorization-625ec07a7001
+    - Carry permissions (session front-end) in JWT
+      - https://stackoverflow.com/questions/51507978/is-it-more-efficient-to-store-the-permissions-of-the-user-in-an-jwt-claim-or-to
+      - https://stackoverflow.com/questions/47224931/is-setting-roles-in-jwt-a-best-practice
 
 
 ### JWT short example - LinOS
@@ -91,7 +91,7 @@
 ```
 
 
-####Nestjs claims guards implementation example
+#### Nestjs claims guards implementation example
 
   ##### claims.decorator.ts
   ```
