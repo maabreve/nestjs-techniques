@@ -1,8 +1,24 @@
 # Authentication/Authorization overview using [Json Web Token](https://tools.ietf.org/html/rfc7519)
 
 ## JWT overview
-### Structure: Header(metadata), Signature(hash), Payload(app claims)
-#### Payload
+### Structure: 
+#### Header (metadata)
+  - Basically informations about the signing algorithm used (ex SHA256, RSA) and the type (always JWT)
+  ```
+  {
+    "alg": "HS256",
+    "typ": "JWT"
+  }
+  ```
+#### Signature (hash)
+  - Contains the hash - used to verify that the sender of the JWT is who it says it is and to ensure that the message wasn't changed along the way
+  ```
+  HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  secret)
+  ```
+#### Payload (app claims)
   - Statements about an entity and additional data
   - Three types:
     - Registered: not mandatory but recommended, to provide a set of useful, interoperable claims [(iss, sub, aud, ...)]((https://tools.ietf.org/html/rfc7519#section-4.1))
@@ -16,7 +32,7 @@
     - [Use HTTPS](https://auth0.com/docs/best-practices/token-best-practices)
     - [Do not add sensitive data to the payload](https://auth0.com/docs/best-practices/token-best-practices)
     - Always validate signature (with the method validate() from PassportStrategy base class)
-    - Claims are exposed (not encrypted) - Encrypt claims?
+    - Despite jwt is signed, the claims are exposed (not encrypted). It means JWT ensures the integrity but everybody can see the claims - Encrypt claims?
 
     - Reading
       - [JWT cheat sheets](https://pragmaticwebsecurity.com/files/cheatsheets/jwt.pdf)
