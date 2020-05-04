@@ -140,8 +140,15 @@
   controller.ts
   ```
   @UseGuards(AuthGuard('jwt'), ClaimsGuard)
-  @UseClaims('read:item') @Get()
+  @UseClaims('item:read') @Get()
   async getAll(): Promise<Item[]> {
     return await this.itemsService.findAll();
   }
+
+  @UseGuards(AuthGuard('jwt'), ClaimsGuard)
+  @UseClaims('item:create') @Get()
+  async create(item): Promise<Item> {
+    return await this.itemsService.create(item);
+  }
+
   ```
