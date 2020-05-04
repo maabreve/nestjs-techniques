@@ -1,4 +1,4 @@
-## Authentication / Authorization discussion using [Json Web Token](https://tools.ietf.org/html/rfc7519)
+## Authentication/Authorization overview using [Json Web Token](https://tools.ietf.org/html/rfc7519)
 
 ### JWT overview
 #### Structure: Header(metadata), Signature(hash), Payload(app claims)
