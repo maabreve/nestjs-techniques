@@ -35,7 +35,7 @@ eslintrc.js
 
 ### Performance
 
-#### [Fastfy adapter] (https://docs.nestjs.com/techniques/performance)
+#### [Fastfy adapter](https://docs.nestjs.com/techniques/performance)
 ###### Pros
 
 - https://www.fastify.io/benchmarks/
