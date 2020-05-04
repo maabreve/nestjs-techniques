@@ -11,7 +11,7 @@
   - Claims are exposed (not encrypted)
 
 
-  ##### [JWT security and best practices](https://auth0.com/docs/best-practices/token-best-practices):
+- [JWT security and best practices](https://auth0.com/docs/best-practices/token-best-practices):
 
     - [Size: 4k limit](https://cheatsheetseries.owasp.org/cheatsheets/HTML5_Security_Cheat_Sheet.html#local-storage) - It allows front-end store in cookies (max length 4k), instead of local/session storage (lack of security)
     - [Use HTTPS](https://auth0.com/docs/best-practices/token-best-practices)
