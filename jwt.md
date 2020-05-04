@@ -1,17 +1,18 @@
-## Authentication/Authorization overview using [Json Web Token](https://tools.ietf.org/html/rfc7519)
+# Authentication/Authorization overview using [Json Web Token](https://tools.ietf.org/html/rfc7519)
 
-### JWT overview
-#### Structure: Header(metadata), Signature(hash), Payload(app claims)
-##### Payload
+## JWT overview
+### Structure: Header(metadata), Signature(hash), Payload(app claims)
+#### Payload
   - Statements about an entity and additional data
   - Three types:
     - Registered: not mandatory but recommended, to provide a set of useful, interoperable claims [(iss, sub, aud, ...)]((https://tools.ietf.org/html/rfc7519#section-4.1))
     - Public: custom claims names that are required to be collision resistant. Their names should be UUIDs or prefixed by a URL to create a safe namespace for them and avoid collisions
     - Private: custom claims created to share information between parties that agree on using them and are neither registered or public claims.
-  - Payloads are exposed (not encrypted)
+  - Claims are exposed (not encrypted)
 
 
-  ###### [JWT security and best practices](https://auth0.com/docs/best-practices/token-best-practices):
+  ##### [JWT security and best practices](https://auth0.com/docs/best-practices/token-best-practices):
+
     - [Size: 4k limit](https://cheatsheetseries.owasp.org/cheatsheets/HTML5_Security_Cheat_Sheet.html#local-storage) - It allows front-end store in cookies (max length 4k), instead of local/session storage (lack of security)
     - [Use HTTPS](https://auth0.com/docs/best-practices/token-best-practices)
     - [Do not add sensitive data to the payload](https://auth0.com/docs/best-practices/token-best-practices)
@@ -19,41 +20,39 @@
     - Encrypt claims?
 
     ###### Reading
+
       - [JWT cheat sheets](https://pragmaticwebsecurity.com/files/cheatsheets/jwt.pdf)
       - [ietf.org](https://tools.ietf.org/id/draft-ietf-oauth-jwt-bcp-02.html)
       - [Auth0 jwt security](https://auth0.com/blog/a-look-at-the-latest-draft-for-jwt-bcp)
 
 
-### Public roles and claims - Fine grained management and code integration
-  #### Public Claims types:
+## Public roles and claims - Fine grained management and code integration
+  ### Public Claims types:
     - Authentication claims: regarding user access to application
     - Authorization API: regarding CRUD or custom permissions to backend api
     - Authorization Session: regarding front-end claims (eg: print, show/hide button)
 
-  #### Discussion
+  ### Discussion
     - Best practices - authentication and authorization (claims) must be apart from applications apis:
       - Api integration - Is it possible to create guards dynamically or must be hard coded in routes?
       - Strategies to manage jwt 4k size limit
       - JWT payload are exposed. Encrypt/Decrypt JWT payload? [node bcrypt](https://github.com/kelektiv/node.bcrypt.js#readme)
 
-
-##### Readings
-  ###### Architectures RBAC, ABAC,
+  #### Readings
+  ##### Architectures RBAC, ABAC,
     - https://cdn2.hubspot.net/hub/174819/file-18506087-pdf/docs/empowerid-whitepaper-r
     - https://www.ekransystem.com/en/blog/rbac-vs-abac
     - https://www.visual-guard.com/EN/net-powerbuilder-application-security-authentication-permission-access-control-rbac-articles/dotnet-security-article-ressources/iam-best-practices.html
     - https://leastprivilege.com/2016/12/16/identity-vs-permissions/
-
   ###### Fine grained strategies
     - https://www.3pillarglobal.com/insights/granular-level-user-and-role-management-using-asp-net-identity
     - https://medium.com/capital-one-tech/securing-applications-with-better-user-authorization-625ec07a7001
-
   ###### Carry permissions (session front-end) in JWT
     - https://stackoverflow.com/questions/51507978/is-it-more-efficient-to-store-the-permissions-of-the-user-in-an-jwt-claim-or-to
     - https://stackoverflow.com/questions/47224931/is-setting-roles-in-jwt-a-best-practice
 
 
-#### JWT short example - LinOS
+### JWT short example - LinOS
 ```
 {
   "iss": "https://www.linosexample.com",
@@ -93,9 +92,9 @@
 ```
 
 
-#### Nestjs claims guards implementation example
+####Nestjs claims guards implementation example
 
-  ###### claims.decorator.ts
+  ##### claims.decorator.ts
   ```
   import { SetMetadata } from '@nestjs/common';
 
@@ -103,7 +102,7 @@
   SetMetadata('claims', claims);
   ```
 
-  ###### claims.guard.ts - check if the decorator claim is present in the claims from Authorization server
+  ##### claims.guard.ts - check if the decorator claim is present in the claims from Authorization server
   ```
   import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
   import { Observable } from 'rxjs';
@@ -137,7 +136,7 @@
   }
   ```
 
-  controller.ts
+  ##### controller.ts
   ```
   @UseGuards(AuthGuard('jwt'), ClaimsGuard)
   @UseClaims('item:read') @Get()
