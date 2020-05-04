@@ -28,7 +28,7 @@
 
 - [Security and best practices](https://auth0.com/docs/best-practices/token-best-practices):
 
-    - [Size: 4k limit](https://cheatsheetseries.owasp.org/cheatsheets/HTML5_Security_Cheat_Sheet.html#local-storage) - It allows front-end store in cookies (max length 4k), instead of local/session storage (lack of security)
+    - [Size: 4k limit](https://cheatsheetseries.owasp.org/cheatsheets/HTML5_Security_Cheat_Sheet.html#local-storage) - There`s no limit to JWT but the best practices and security says front-end must store JWT in cookies (max length 4k), instead of local/session storage due lack of security in these storages.
     - [Use HTTPS](https://auth0.com/docs/best-practices/token-best-practices)
     - [Do not add sensitive data to the payload](https://auth0.com/docs/best-practices/token-best-practices)
     - Always validate signature (with the method validate() from PassportStrategy base class)
