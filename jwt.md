@@ -1,17 +1,22 @@
-## [Json Web Token](https://tools.ietf.org/html/rfc7519)
-### Structure: Header(metadata), Signature(hash), Payload(app claims)
-#### Payload
+## Authentication / Authorization discussion using [Json Web Token](https://tools.ietf.org/html/rfc7519)
+
+### JWT overview
+#### Structure: Header(metadata), Signature(hash), Payload(app claims)
+##### Payload
   - Statements about an entity and additional data
   - Three types:
     - Registered: not mandatory but recommended, to provide a set of useful, interoperable claims [(iss, sub, aud, ...)]((https://tools.ietf.org/html/rfc7519#section-4.1))
     - Public: custom claims names that are required to be collision resistant. Their names should be UUIDs or prefixed by a URL to create a safe namespace for them and avoid collisions
     - Private: custom claims created to share information between parties that agree on using them and are neither registered or public claims.
+  - Payloads are exposed (not encrypted)
 
-  - [Security and best practices](https://auth0.com/docs/best-practices/token-best-practices):
+
+  ###### [JWT security and best practices](https://auth0.com/docs/best-practices/token-best-practices):
     - [Size: 4k limit](https://cheatsheetseries.owasp.org/cheatsheets/HTML5_Security_Cheat_Sheet.html#local-storage) - It allows front-end store in cookies (max length 4k), instead of local/session storage (lack of security)
     - [Use HTTPS](https://auth0.com/docs/best-practices/token-best-practices)
     - [Do not add sensitive data to the payload](https://auth0.com/docs/best-practices/token-best-practices)
     - Always validate signature (with the method validate() from PassportStrategy base class)
+    - Encrypt claims?
 
     ###### Reading
       - [JWT cheat sheets](https://pragmaticwebsecurity.com/files/cheatsheets/jwt.pdf)
