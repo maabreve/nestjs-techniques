@@ -4,7 +4,11 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import * as helmet from 'helmet';
 import * as fastifyRateLimit from 'fastify-rate-limit';
 // import * as rateLimit from 'express-rate-limit'; // Express rate limit
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import * as swStats from 'swagger-stats';
+import { apiSpec } from './swagger';
 
+// Enable swagger-stats middleware in express app, passing swagger spe
 async function bootstrap() {
 
   // Fastify
@@ -34,8 +38,24 @@ async function bootstrap() {
     //   })
     // )
 
+    // swagger statistics
+    .use(swStats.getMiddleware({ swaggerSpec: apiSpec }))
+
+
     // Cors
     .enableCors();
+
+  console.log(`---xxx`, swStats);
+
+  const options = new DocumentBuilder()
+    .setTitle('Nest boilerplate')
+    .setDescription('NestJs API description')
+    .setVersion('1.0')
+    .addTag('nestJs')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api', app, document);
 
 
   // Fastify

@@ -60,5 +60,11 @@ npx compodoc -p tsconfig.json -s
 http://localhost:8080/
 ```
 
+### Configuration
+#### [Nestjs Configuration](https://docs.nestjs.com/techniques/configuration)
+
+###### Pros
+- less boilerplate code, configure globally
+- multiple files management
 
 
