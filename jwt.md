@@ -20,19 +20,19 @@
 
 
 ### Public roles and claims - Fine grained management and code integration
-  - Public Claims types:
+  #### Public Claims types:
     - Authentication claims: regarding user access to application
     - Authorization API: regarding CRUD or custom permissions to backend api
     - Authorization Session: regarding front-end claims (eg: print, show/hide button)
 
-#### Discussion
-  - Best practices - authentication and authorization (claims) must be apart from applications apis:
-    - Api integration - Is it possible to create guards dynamically or must be hard coded in routes?
-    - Strategies to manage jwt 4k size limit
-    - JWT payload are exposed. Encrypt/Decrypt JWT payload? [node bcrypt](https://github.com/kelektiv/node.bcrypt.js#readme)
+  #### Discussion
+    - Best practices - authentication and authorization (claims) must be apart from applications apis:
+      - Api integration - Is it possible to create guards dynamically or must be hard coded in routes?
+      - Strategies to manage jwt 4k size limit
+      - JWT payload are exposed. Encrypt/Decrypt JWT payload? [node bcrypt](https://github.com/kelektiv/node.bcrypt.js#readme)
 
 
-###### Readings
+##### Readings
   ###### Architectures RBAC, ABAC,
     - https://cdn2.hubspot.net/hub/174819/file-18506087-pdf/docs/empowerid-whitepaper-r
     - https://www.ekransystem.com/en/blog/rbac-vs-abac
@@ -43,7 +43,7 @@
     - https://www.3pillarglobal.com/insights/granular-level-user-and-role-management-using-asp-net-identity
     - https://medium.com/capital-one-tech/securing-applications-with-better-user-authorization-625ec07a7001
 
-  ##### Carry permissions (session front-end) in JWT
+  ###### Carry permissions (session front-end) in JWT
     - https://stackoverflow.com/questions/51507978/is-it-more-efficient-to-store-the-permissions-of-the-user-in-an-jwt-claim-or-to
     - https://stackoverflow.com/questions/47224931/is-setting-roles-in-jwt-a-best-practice
 
@@ -88,10 +88,9 @@
 ```
 
 
-#### An Nestjs claims guards implementation example
- - 1. Create a decorator for claims
+#### Nestjs claims guards implementation example
 
-  claims.decorator.ts
+  ###### claims.decorator.ts
   ```
   import { SetMetadata } from '@nestjs/common';
 
@@ -99,48 +98,45 @@
   SetMetadata('claims', claims);
   ```
 
-- 2. Create a guard for claims
+  ###### claims.guard.ts - check if the decorator claim is present in the claims from Authorization server
+  ```
+  import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+  import { Observable } from 'rxjs';
+  import { Reflector } from '@nestjs/core';
 
-claims.guard.ts - check if the decorator claim is present in the claims from Authorization server
-```
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { Reflector } from '@nestjs/core';
+  @Injectable()
+  export class ClaimsGuard implements CanActivate {
+    constructor(private readonly reflector: Reflector) { }
 
-@Injectable()
-export class ClaimsGuard implements CanActivate {
-  constructor(private readonly reflector: Reflector) { }
+    canActivate(
+      context: ExecutionContext,
+    ): boolean | Promise<boolean> | Observable<boolean> {
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-
-    const routeClaims = this.reflector.get<string[]>(
-      'claims',
-      context.getHandler(),
-    );
-
-    const userClaims = context.getArgs()[0].user.claims;
-    if (!routeClaims) {
-      return true;
-    }
-
-    const hasPermission = () =>
-      routeClaims.every(routePermission =>
-        userClaims.includes(routePermission),
+      const routeClaims = this.reflector.get<string[]>(
+        'claims',
+        context.getHandler(),
       );
 
-    return hasPermission();
+      const userClaims = context.getArgs()[0].user.claims;
+      if (!routeClaims) {
+        return true;
+      }
+
+      const hasPermission = () =>
+        routeClaims.every(routePermission =>
+          userClaims.includes(routePermission),
+        );
+
+      return hasPermission();
+    }
   }
-}
-```
+  ```
 
-- 3. Use the guard and the decorator in the route controller
-
-```
-@UseGuards(AuthGuard('jwt'), ClaimsGuard)
+  controller.ts
+  ```
+  @UseGuards(AuthGuard('jwt'), ClaimsGuard)
   @UseClaims('read:item') @Get()
   async getAll(): Promise<Item[]> {
     return await this.itemsService.findAll();
   }
-```
+  ```
