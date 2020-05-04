@@ -36,7 +36,6 @@ eslintrc.js
 ### Performance
 
 #### [Fastfy adapter] (https://docs.nestjs.com/techniques/performance)
-
 ###### Pros
 
 - https://www.fastify.io/benchmarks/
@@ -52,19 +51,10 @@ eslintrc.js
 
 
 ### Documentation
-#### [Compdoc](https://docs.nestjs.com/recipes/documentation#documentation)
+- [Compdoc](https://docs.nestjs.com/recipes/documentation#documentation)
+- Swagger api doc
 
-```
-npm i -D @compodoc/compodoc
-npx compodoc -p tsconfig.json -s
-http://localhost:8080/
-```
-
-### Configuration
-#### [Nestjs Configuration](https://docs.nestjs.com/techniques/configuration)
-
-###### Pros
-- less boilerplate code, configure globally
-- multiple files management
+### Metrics
+  - Swagger statistics
 
 
