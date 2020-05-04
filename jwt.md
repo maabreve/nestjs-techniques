@@ -1,7 +1,7 @@
-## [JWT](https://tools.ietf.org/html/rfc7519)
-
+## [Json Web Token](https://tools.ietf.org/html/rfc7519)
+### Structure: Header(metadata), Signature(hash), Payload(app claims)
 #### Payload
-  - statements about an entity (typically, the user) and additional data
+  - Statements about an entity and additional data
   - Three types:
     - Registered: not mandatory but recommended, to provide a set of useful, interoperable claims [(iss, sub, aud, ...)]((https://tools.ietf.org/html/rfc7519#section-4.1))
     - Public: custom claims names that are required to be collision resistant. Their names should be UUIDs or prefixed by a URL to create a safe namespace for them and avoid collisions
@@ -13,25 +13,42 @@
     - [Do not add sensitive data to the payload](https://auth0.com/docs/best-practices/token-best-practices)
     - Always validate signature (with the method validate() from PassportStrategy base class)
 
-
-    - Reading
+    ###### Reading
       - [JWT cheat sheets](https://pragmaticwebsecurity.com/files/cheatsheets/jwt.pdf)
       - [ietf.org](https://tools.ietf.org/id/draft-ietf-oauth-jwt-bcp-02.html)
       - [Auth0 jwt security](https://auth0.com/blog/a-look-at-the-latest-draft-for-jwt-bcp)
 
 
-### Fine grained roles, claims
-  - Authentication claims: regarding user access to application
-  - Authorization API: regarding CRUD or custom permissions to backend api
-  - Authorization Session: regarding front-end claims (eg: print, show/hide button)
+### Public roles and claims - Fine grained management and code integration
+  - Public Claims types:
+    - Authentication claims: regarding user access to application
+    - Authorization API: regarding CRUD or custom permissions to backend api
+    - Authorization Session: regarding front-end claims (eg: print, show/hide button)
 
-#### Discussion - Roles and claims management and code integration
-  - Best practices says authentication and authorization (claims) must be apart from applications apis:
+#### Discussion
+  - Best practices - authentication and authorization (claims) must be apart from applications apis:
     - Api integration - Is it possible to create guards dynamically or must be hard coded in routes?
-    - How to manage jwt 4k size limit
-    - JWT payload are not encrypted. Encrypt/Decrypt JWT payload? [node bcrypt](https://github.com/kelektiv/node.bcrypt.js#readme)
+    - Strategies to manage jwt 4k size limit
+    - JWT payload are exposed. Encrypt/Decrypt JWT payload? [node bcrypt](https://github.com/kelektiv/node.bcrypt.js#readme)
 
-#### JWT short example LinOS
+
+###### Readings
+  ###### Architectures RBAC, ABAC,
+    - https://cdn2.hubspot.net/hub/174819/file-18506087-pdf/docs/empowerid-whitepaper-r
+    - https://www.ekransystem.com/en/blog/rbac-vs-abac
+    - https://www.visual-guard.com/EN/net-powerbuilder-application-security-authentication-permission-access-control-rbac-articles/dotnet-security-article-ressources/iam-best-practices.html
+    - https://leastprivilege.com/2016/12/16/identity-vs-permissions/
+
+  ###### Fine grained strategies
+    - https://www.3pillarglobal.com/insights/granular-level-user-and-role-management-using-asp-net-identity
+    - https://medium.com/capital-one-tech/securing-applications-with-better-user-authorization-625ec07a7001
+
+  ##### Carry permissions (session front-end) in JWT
+    - https://stackoverflow.com/questions/51507978/is-it-more-efficient-to-store-the-permissions-of-the-user-in-an-jwt-claim-or-to
+    - https://stackoverflow.com/questions/47224931/is-setting-roles-in-jwt-a-best-practice
+
+
+#### JWT short example - LinOS
 ```
 {
   "iss": "https://www.linosexample.com",
@@ -71,7 +88,7 @@
 ```
 
 
-#### An implementation example using Nestjs
+#### An Nestjs claims guards implementation example
  - 1. Create a decorator for claims
 
   claims.decorator.ts
