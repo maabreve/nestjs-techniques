@@ -7,6 +7,7 @@ import * as fastifyRateLimit from 'fastify-rate-limit';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as swStats from 'swagger-stats';
 import { apiSpec } from './swagger';
+import * as compression from 'compression';
 
 // Enable swagger-stats middleware in express app, passing swagger spe
 async function bootstrap() {
@@ -41,10 +42,11 @@ async function bootstrap() {
     // swagger statistics
     .use(swStats.getMiddleware({ swaggerSpec: apiSpec }))
 
+    // compression
+    .use(compression())
 
     // Cors
     .enableCors();
-
   console.log(`---xxx`, swStats);
 
   const options = new DocumentBuilder()
